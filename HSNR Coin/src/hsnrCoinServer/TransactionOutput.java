@@ -1,3 +1,5 @@
+package hsnrCoinServer;
+
 import java.security.*;
 
 public class TransactionOutput {

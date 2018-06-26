@@ -1,3 +1,5 @@
+package hsnrCoinServer;
+
 import java.security.*;
 import java.util.*;
 
@@ -8,6 +10,9 @@ public class Transaction {
 	public PublicKey reciepient; 
 	public float value;
 	public byte[] signature; 
+	
+	public String testSender;
+	public String testRecipient;
 	
 	private static int sequence = 0;
 	
@@ -23,6 +28,14 @@ public class Transaction {
 		this.transactionId = calculateHash();
 	}
 	
+	public Transaction(String from, String to, float amount) {
+		// TODO Auto-generated constructor stub
+		this.sender = from;
+		this.reciepient = to;
+		this.value = amount;
+		this.transactionId = calculateHash();
+	}
+
 	private String calculateHash() {
 		//nimmt die Methode von StringUtil
 		sequence++; //wir addieren dazu die Reihenfolge, damit 2 Transaktionen keine identische Hasshes haben
@@ -56,11 +69,11 @@ public class Transaction {
 					
 			//sammelt alle unbenutzte TRansaktionen
 			for(TransactionInput i : inputs) {
-				i.UTXO = Main.UTXOs.get(i.transactionOutputId);
+				i.UTXO = Blockchain.UTXOs.get(i.transactionOutputId);
 			}
 	
 			//Überprüft, ob die Transaktion in Ordnung ist
-			if(getInputsValue() < Main.minimumTransaction) {
+			if(getInputsValue() < Blockchain.minimumTransaction) {
 				System.out.println("#Transaction Inputs to small: " + getInputsValue());
 				return false;
 			}
@@ -73,13 +86,13 @@ public class Transaction {
 					
 			//fügt outputs zum UTXO
 			for(TransactionOutput o : outputs) {
-				Main.UTXOs.put(o.id , o);
+				Blockchain.UTXOs.put(o.id , o);
 			}
 			
 			//löscht input vaus der UTXO
 			for(TransactionInput i : inputs) {
 				if(i.UTXO == null) continue; //wenn nicht gefunden, skip
-				Main.UTXOs.remove(i.UTXO.id);
+				Blockchain.UTXOs.remove(i.UTXO.id);
 			}
 			
 			return true;

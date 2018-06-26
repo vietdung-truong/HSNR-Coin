@@ -10,6 +10,8 @@ import javax.swing.SpringLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Send extends JFrame {
 
@@ -81,6 +83,12 @@ public class Send extends JFrame {
 		contentPane.add(txtrDescription);
 		
 		JButton btnSend = new JButton("Send");
+		btnSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//hier werden die werte von den 3 Textfeldern genommen und in ein Transaction übergeben
+			}
+		});
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnSend, -10, SpringLayout.SOUTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.EAST, btnSend, 0, SpringLayout.EAST, txtrRecipient);
 		contentPane.add(btnSend);

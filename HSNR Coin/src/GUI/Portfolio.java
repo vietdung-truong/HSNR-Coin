@@ -55,26 +55,17 @@ public class Portfolio extends JFrame {
 		sl_contentPane.putConstraint(SpringLayout.NORTH, txtrKontostand, -5, SpringLayout.NORTH, lblAktuellerKontostand);
 		sl_contentPane.putConstraint(SpringLayout.WEST, txtrKontostand, 228, SpringLayout.WEST, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.EAST, txtrKontostand, -55, SpringLayout.EAST, contentPane);
-		txtrKontostand.setText("Kontostand");
+		txtrKontostand.setText("Kontostand"); // durch getBalance() gehollt
 		contentPane.add(txtrKontostand);
 		
 		JTextArea txtrVerlauf = new JTextArea();
 		sl_contentPane.putConstraint(SpringLayout.NORTH, txtrVerlauf, 174, SpringLayout.NORTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.WEST, txtrVerlauf, 168, SpringLayout.WEST, contentPane);
-		txtrVerlauf.setText("Verlauf");
+		txtrVerlauf.setText("Verlauf"); //Methode von Raphael
 		contentPane.add(txtrVerlauf);
 		
-		JButton btnGenerateNewPublic = new JButton("Generate new Public Key");
-		btnGenerateNewPublic.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnGenerateNewPublic, 133, SpringLayout.WEST, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnGenerateNewPublic, -10, SpringLayout.SOUTH, contentPane);
-		contentPane.add(btnGenerateNewPublic);
-		
 		JTextArea txtrPublicKeyTest = new JTextArea();
-		txtrPublicKeyTest.setText("Public Key Test");
+		txtrPublicKeyTest.setText("Public Key Test");//hier sollte der Publickeywert von Json angezeigt werden, der beim Starten gelesen wurde.
 		sl_contentPane.putConstraint(SpringLayout.NORTH, txtrPublicKeyTest, 10, SpringLayout.NORTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.WEST, txtrPublicKeyTest, 30, SpringLayout.WEST, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, txtrPublicKeyTest, 78, SpringLayout.NORTH, contentPane);

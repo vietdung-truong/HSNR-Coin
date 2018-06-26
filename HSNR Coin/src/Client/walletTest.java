@@ -1,3 +1,5 @@
+package Client;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -14,8 +16,6 @@ import java.security.Security;
 import java.awt.event.ActionEvent;
 
 public class walletTest extends JFrame {
-	
-	
 
 	private JPanel contentPane;
 
@@ -45,21 +45,20 @@ public class walletTest extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JTextArea txtrPublicKey = new JTextArea();
 		txtrPublicKey.setText("Public Key");
 		contentPane.add(txtrPublicKey, BorderLayout.CENTER);
-		
+
 		JButton btnGenerateNewPublic = new JButton("Generate new Public Key");
 		btnGenerateNewPublic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-					Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); 
-				
-					Wallet test = new Wallet();
-					txtrPublicKey.setText(StringUtil.getStringFromKey(test.publicKey));
-					
-				
+
+				Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+				Wallet test = new Wallet();
+				txtrPublicKey.setText(StringUtil.getStringFromKey(test.publicKey));
+
 			}
 		});
 		contentPane.add(btnGenerateNewPublic, BorderLayout.SOUTH);

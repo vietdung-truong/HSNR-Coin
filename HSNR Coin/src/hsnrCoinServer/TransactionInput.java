@@ -1,3 +1,4 @@
+package hsnrCoinServer;
 
 public class TransactionInput {
 

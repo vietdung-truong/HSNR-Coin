@@ -1,5 +1,12 @@
 package GUI;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -22,11 +29,59 @@ public class StartScreen {
 				try {
 					StartScreen window = new StartScreen();
 					window.frame.setVisible(true);
+					String userHome = System.getProperty("user.home");
+					File f = new File(userHome+"//usercredential.json");
+					if(f.exists() && !f.isDirectory()) { 
+					    // do something
+						// read the public key and the private key from the data
+					}else {
+						String path = userHome+"//usercredential.json";
+						// Use relative path for Unix systems
+						File f1 = new File(path);
+
+						Wallet ourWallet = new Wallet();//wir müssen noch die Package importieren.
+						//Stringbuffer mit neuen Public key und Private Key.
+						f1.getParentFile().mkdirs(); 
+						f1.createNewFile();
+						
+						InputStream inSig = PGPUtil.getDecoderStream(new FileInputStream(signaturFile));
+					    //ArmoredInputStream inSig = new ArmoredInputStream(new FileInputStream(signaturFile));
+					    JcaPGPObjectFactory objFactory = new JcaPGPObjectFactory(inSig);
+					    PGPSignatureList signatureList = (PGPSignatureList) objFactory.nextObject();
+					    PGPSignature signature = signatureList.get(0);
+
+					    InputStream keyIn = PGPUtil.getDecoderStream(new FileInputStream(publicKeyFile));
+					    //ArmoredInputStream keyIn = new ArmoredInputStream(new FileInputStream(publicKeyFile));
+					    JcaPGPPublicKeyRingCollection pgpRing = new JcaPGPPublicKeyRingCollection(keyIn);
+					    PGPPublicKey publicKey = pgpRing.getPublicKey(signature.getKeyID());
+
+					    byte[] bytePublicKeyFingerprint = publicKey.getFingerprint();
+					    char[] publicKeyFingerprintHexArray = org.apache.commons.codec.binary.Hex.encodeHex(bytePublicKeyFingerprint);
+					    String publicKeyFingerprintHex = new String(publicKeyFingerprintHexArray);
+
+					    signature.init(new JcaPGPContentVerifierBuilderProvider().setProvider("BC"), publicKey);
+
+					    FileInputStream in = new FileInputStream(file);
+					    byte[] byteData = new byte[(int) file.length()];
+					    in.read(byteData);
+					    in.close();
+					    signature.update(byteData);
+
+					    if (signature.verify() && publicKeyFingerprintHex.equals(fingerprint)) {
+					        return true;
+					    } else {
+					        return false;
+					    }
+					}
+					//liest lokales blockchain aus dem pfad
+					//connect to server
+					//uptodate?
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		
 	}
 
 	/**

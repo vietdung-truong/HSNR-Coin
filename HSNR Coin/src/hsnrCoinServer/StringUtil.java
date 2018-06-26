@@ -1,3 +1,4 @@
+package hsnrCoinServer;
 import java.security.MessageDigest;
 import java.security.PublicKey;
 import java.security.*;
