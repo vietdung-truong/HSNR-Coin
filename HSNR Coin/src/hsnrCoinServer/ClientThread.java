@@ -40,25 +40,10 @@ public class ClientThread extends Thread {
 			blockchainServer.outputList.add(out);
 			blockchainServer.inputList.add(in);
 
-			while (clientSocket.isConnected() == true)
-				;
-			{
-
+			while (clientSocket.isConnected() == true) {
+				//syso wird hier nicht funktionieren. Program bleibt hängen. Warum? Keyword flushgit
 				while ((input = in.readLine()) != null) {
-					/*
-					 * System.out.println("Client "+blockchainServer.inputList.indexOf(in)+": "
-					 * +input);
-					 * 
-					 * if (fixedCount != 0 || input == "fixed") {
-					 * 
-					 * fixedCount = fixedCount + 1; if (fixedCount == count) {
-					 * 
-					 * handshake = 1;
-					 * 
-					 * } break;
-					 */
-
-					if (input.equals("connection-request"))// Woher kommt inout?
+					if (input.equals("connection-request"))// Woher kommt input?
 					{
 
 						out.println("Acknowledged");
@@ -76,7 +61,6 @@ public class ClientThread extends Thread {
 
 							{
 
-							
 								for (Transaction i1 : tempTransactionArray) {
 
 									jsonResponse += String.format("{\"from\":\"%s\",\"to\":\"%s\",\"amount\":\"%s\"},",
@@ -86,7 +70,7 @@ public class ClientThread extends Thread {
 							} else {
 
 								int counter = 0;
-								while (counter < tempTransactionArray.size()-1) {
+								while (counter < tempTransactionArray.size() - 1) {
 									Transaction i1 = tempTransactionArray.get(counter);
 									jsonResponse += String.format("{\"from\":\"%s\",\"to\":\"%s\",\"amount\":\"%s\"},",
 											i1.sender, i1.reciepient, i1.value);
@@ -112,8 +96,6 @@ public class ClientThread extends Thread {
 						break;
 
 					} else if (input.startsWith("{from:")) {
-						
-						
 
 						String parse = new String(input);
 						JSONObject jsonObject = new JSONObject(parse);
@@ -121,9 +103,11 @@ public class ClientThread extends Thread {
 						String from = jsonObject.getString("from");
 						String to = jsonObject.getString("to");
 						float amount = jsonObject.getInt("amount");// Console?
-						//blockchainServer.blockchainobject.append(from, to, amount);// needs improvement. jsonObject. Teilweise gelöst durch die nächste Zeile #125
-						Transaction tempTransaction = new Transaction (from, to, amount);
-						Block newBlock = new Block();//wir müssen noch das hash von letzten Block referenzieren. NOCH IN TESTING
+						// blockchainServer.blockchainobject.append(from, to, amount);// needs
+						// improvement. jsonObject. Teilweise gelöst durch die nächste Zeile #125
+						Transaction tempTransaction = new Transaction(from, to, amount);
+						Block newBlock = new Block();// wir müssen noch das hash von letzten Block referenzieren. NOCH
+														// IN TESTING
 						newBlock.addTransaction(tempTransaction);
 						addBlock(newBlock);
 						// hier muss ich aufpassen. Allign the Transactions!
@@ -216,25 +200,11 @@ public class ClientThread extends Thread {
 
 							}
 
-							/*
-							 * while (fixedCount < count) {
-							 * 
-							 * Thread.sleep(1);
-							 * 
-							 * }
-							 * 
-							 * System.out.println("All clients fixed"); for (PrintWriter o : outputList) {
-							 * 
-							 * o.println("fixed");
-							 * 
-							 * } //fixedCount = 0; handshake = 0; break;
-							 */
 						}
 
 					}
 
 				}
-				count--;
 				System.out.println(
 						String.format("Server: Client %s disconnected", blockchainServer.outputList.indexOf(out)));
 				clientSocket.close();
@@ -254,11 +224,11 @@ public class ClientThread extends Thread {
 		}
 
 	}
-	
+
 	static void addBlock(Block newBlock) {
-		int difficulty = 5; //erstmal test
+		int difficulty = 5; // erstmal test
 		// TODO Auto-generated method stub
-		newBlock.mineBlock(difficulty );
+		newBlock.mineBlock(difficulty);
 		blockchainServer.blockchainobject.blockchain.add(newBlock); // finde das Blockchain von dem Server Guy
 	}
 

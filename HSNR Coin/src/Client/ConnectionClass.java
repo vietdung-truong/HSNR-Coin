@@ -18,11 +18,15 @@ public class ConnectionClass {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
 
-			out.println("requesting-connection");
-			catchup();
-			receiveInput();
+			out.println("connection-request");
+			Thread.sleep(5000);
+			if ((in.readLine()) != null) {
+				System.out.println(in.readLine());
+			}
+			// catchup();
+			// receiveInput();
 		} catch (Exception e) {
-			System.out.println("connection failed");
+			e.printStackTrace();
 			return;
 		}
 	}
@@ -41,13 +45,15 @@ public class ConnectionClass {
 
 	static void catchup() {
 		try {
-		out.println("catch-up");
-		String blockchainString = "";
-		while((blockchainString = in.readLine()) == null); //wait for reply from server
-        while((blockchainString = in.readLine()) == null); //wait for reply from server
-        JSONObject jsonObject = new JSONObject(blockchainString);
-        JSONArray data = jsonObject.getJSONArray("data");
-		}catch (Exception e) {
+			out.println("catch-up");
+			String blockchainString = "";
+			while ((blockchainString = in.readLine()) == null)
+				; // wait for reply from server
+			while ((blockchainString = in.readLine()) == null)
+				; // wait for reply from server
+			JSONObject jsonObject = new JSONObject(blockchainString);
+			JSONArray data = jsonObject.getJSONArray("data");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

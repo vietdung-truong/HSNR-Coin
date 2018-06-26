@@ -25,6 +25,7 @@ public class Main {
 		walletA = new Wallet();
 		walletB = new Wallet();
 		Wallet coinbase = new Wallet();
+		ConnectionClass.makeConnection();
 				
 
 		/*
