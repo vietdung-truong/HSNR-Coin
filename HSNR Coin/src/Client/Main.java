@@ -18,6 +18,8 @@ public class Main {
 		String blockchainJson = new GsonBuilder().setPrettyPrinting().create().toJson(Blockchain.blockchain);
 		System.out.println(blockchainJson);
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		
+		
 
 		// Create the new wallets
 		walletA = new Wallet();
